@@ -69,7 +69,7 @@ const domLogic = (function () {
     todoNotes.classList.add('notes');
     todoNotes.textContent = `Notes: ${todo.description}`;
 
-    const todoChecklist = document.createElement('div');
+    const todoChecklist = document.createElement('form');
     todoChecklist.classList.add('checklist');
     const todoChecklistName = document.createElement('p');
     todoChecklistName.textContent = 'Checklist:';
@@ -79,8 +79,16 @@ const domLogic = (function () {
       checklistItem.innerHTML = `<input type="checkbox" data-index="${index}" id="item${index}"><label for="item${index}">${item}</label>`;
       todoChecklistItems.appendChild(checklistItem);
     });
+    const todoChecklistInput = document.createElement('input');
+    todoChecklistInput.type = 'text';
+    const todoChecklistSubmit = document.createElement('input');
+    todoChecklistSubmit.type = 'submit';
+    todoChecklistSubmit.value = 'Add Todo';
+    todoChecklistSubmit.classList.add('submit');
     todoChecklist.appendChild(todoChecklistName);
     todoChecklist.appendChild(todoChecklistItems);
+    todoChecklist.appendChild(todoChecklistInput);
+    todoChecklist.appendChild(todoChecklistSubmit);
 
     expandTodo.appendChild(todoDescription);
     expandTodo.appendChild(todoNotes);
