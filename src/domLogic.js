@@ -1,4 +1,4 @@
-function domLogic() {
+const domLogic = (function () {
   const projectsContainer = document.querySelector('#projects-container');
   const content = document.querySelector('#content');
 
@@ -12,7 +12,7 @@ function domLogic() {
   const createCaretButton = () => {
     const newCaretButton = document.createElement('button');
     newCaretButton.classList.add('caret');
-    newCaretButton.textContent = `&or;`;
+    newCaretButton.innerHTML = `&or;`;
     return newCaretButton;
   };
 
@@ -27,11 +27,13 @@ function domLogic() {
 
     newProjectElement.appendChild(projectTitle);
     newProjectElement.appendChild(createActionsButton());
+
+    return newProjectElement;
   };
 
   const displayProjectList = projects => {
-    projects.forEach(project => {
-      projectsContainer.appendChild(createProjectElement(project));
+    projects.forEach((project, index) => {
+      projectsContainer.appendChild(createProjectElement(project, index));
     });
   };
 
@@ -72,9 +74,9 @@ function domLogic() {
     const todoChecklistName = document.createElement('p');
     todoChecklistName.textContent = 'Checklist:';
     const todoChecklistItems = document.createElement('ul');
-    todo.checklist.forEach(item => {
+    todo.checklist.forEach((item, index) => {
       let checklistItem = document.createElement('li');
-      checklistItem.textContent = item;
+      checklistItem.innerHTML = `<input type="checkbox" data-index="${index}" id="item${index}"><label for="item${index}">${item}</label>`;
       todoChecklistItems.appendChild(checklistItem);
     });
     todoChecklist.appendChild(todoChecklistName);
@@ -91,8 +93,15 @@ function domLogic() {
   };
 
   const displayTodoList = todoList => {
-    todoList.forEach(todo => {
-      content.appendChild(createTodoElement(todo));
+    todoList.forEach((todo, index) => {
+      content.appendChild(createTodoElement(todo, index));
     })
   };
-}
+
+  return {
+    displayProjectList,
+    displayTodoList,
+  };
+})();
+
+export default domLogic;
