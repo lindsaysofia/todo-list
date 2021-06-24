@@ -1,3 +1,4 @@
+import './style.css';
 import todo from './todo';
 import project from './project';
 import domLogic from './domLogic';
@@ -11,6 +12,7 @@ const todoList = (function(){
   
   const defaultProject = project(`Let's Get This Bread`, []);
   defaultProject.todoList.push(defaultTodo);
+  projects.push(defaultProject);
   projects.push(defaultProject);
   
   domLogic.displayProjectList(projects);
