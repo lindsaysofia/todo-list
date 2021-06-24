@@ -18,11 +18,19 @@ const applicationLogic = (function () {
     let projectItemIndex = projectItem.dataset.index;
     projectItem.classList.add('active');
     domLogic.displayTodoList(projects[projectItemIndex].todoList, projectItemIndex);
+    addEventListeners();
+  }
+
+  const showActions = e => {
+    console.log(e.target);
   }
 
   const addEventListeners = () => {
     const projectItems = document.querySelectorAll('.project-item');
+    const actionsButtons = document.querySelectorAll('.actions');
+
     projectItems.forEach(projectItem => projectItem.addEventListener('click', activateProject));
+    actionsButtons.forEach(actionButton => actionButton.addEventListener('click', showActions));
   }
 
   const initiateTodoProject = () => {
@@ -30,8 +38,8 @@ const applicationLogic = (function () {
     tomorrow.setDate(tomorrow.getDate() + 1);
     const defaultTodo = todo('Start a todo list :)', 'I need to start a todo list.', tomorrow, 1, 'Add some notes here', ('This Is A Checklist').split(' '), false);
     const defaultProject = project(`Let's Get This Bread`, []);
-    const defaultTodo2 = todo('Start a todo list Part 2 :)', 'I need to start a todo list.', tomorrow, 1, 'Add some notes here', ('This Is A Checklist').split(' '), false);
-    const defaultProject2 = project(`Let's Get This Bread Part 2`, []);
+    const defaultTodo2 = todo('Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :)', 'I need to start a todo list.', tomorrow, 1, 'Add some notes here', ('This Is A Checklist').split(' '), false);
+    const defaultProject2 = project(`Let's Get This Bread Part 2 Let's Get This Bread Part 2`, []);
     defaultProject.todoList.push(defaultTodo);
     defaultProject.todoList.push(defaultTodo);
     defaultProject2.todoList.push(defaultTodo2);
@@ -45,8 +53,9 @@ const applicationLogic = (function () {
     firstProject.classList.add('active');
 
     domLogic.displayAddButton();
+    domLogic.createActionsList();
 
-    addEventListeners(projects);
+    addEventListeners();
   }
 
   return {

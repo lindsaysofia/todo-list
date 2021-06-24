@@ -111,12 +111,29 @@ const domLogic = (function () {
     addButton.classList.add('add');
     addButton.textContent = '+';
     projectsContainer.appendChild(addButton);
-  }
+  };
+
+  const createActionsList = () => {
+    console.log('hey')
+    const actionsList = document.createElement('div');
+    actionsList.classList.add('actions-list');
+
+    const markAsComplete = document.createElement('p');
+    const edit = document.createElement('p');
+    const del = document.createElement('p');
+
+    actionsList.appendChild(markAsComplete);
+    actionsList.appendChild(edit);
+    actionsList.appendChild(del);
+
+    projectsContainer.appendChild(actionsList);
+  };
 
   return {
     displayProjectList,
     displayTodoList,
     displayAddButton,
+    createActionsList,
   };
 })();
 
