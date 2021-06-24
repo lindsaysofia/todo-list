@@ -16,10 +16,10 @@ const todoList = (function(){
   projects.push(defaultProject);
   
   domLogic.displayProjectList(projects);
-  projects.forEach(project => {
-    domLogic.displayTodoList(project.todoList);
+  projects.forEach((project, index) => {
+    domLogic.displayTodoList(project.todoList, index);
   });
-
+  domLogic.displayAddButton();
 
 
 })();

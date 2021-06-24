@@ -20,7 +20,6 @@ const domLogic = (function () {
     const newProjectElement = document.createElement('div');
     newProjectElement.dataset.index = index;
     newProjectElement.classList.add('project-item');
-    newProjectElement.classList.add('active');
 
     const projectTitle = document.createElement('p');
     projectTitle.classList.add('title');
@@ -38,7 +37,7 @@ const domLogic = (function () {
     });
   };
 
-  const createTodoElement = (todo, index) => {
+  const createTodoElement = (todo, index, projectIndex) => {
     const newTodoElement = document.createElement('div');
     newTodoElement.dataset.index = index;
     newTodoElement.classList.add('todo-item');
@@ -77,7 +76,7 @@ const domLogic = (function () {
     const todoChecklistItems = document.createElement('ul');
     todo.checklist.forEach((item, index) => {
       let checklistItem = document.createElement('li');
-      checklistItem.innerHTML = `<input type="checkbox" data-index="${index}" id="item${index}"><label for="item${index}">${item}</label>`;
+      checklistItem.innerHTML = `<input type="checkbox" data-index="${index}" id="item${index}${projectIndex}"><label for="item${index}${projectIndex}">${item}</label>`;
       todoChecklistItems.appendChild(checklistItem);
     });
     // const todoChecklistInput = document.createElement('input');
@@ -101,15 +100,23 @@ const domLogic = (function () {
     return newTodoElement;
   };
 
-  const displayTodoList = todoList => {
+  const displayTodoList = (todoList, projectIndex) => {
     todoList.forEach((todo, index) => {
-      content.appendChild(createTodoElement(todo, index));
+      content.appendChild(createTodoElement(todo, index, projectIndex));
     })
   };
+
+  const displayAddButton = () => {
+    const addButton = document.createElement('button');
+    addButton.classList.add('add');
+    addButton.textContent = '+';
+    projectsContainer.appendChild(addButton);
+  }
 
   return {
     displayProjectList,
     displayTodoList,
+    displayAddButton,
   };
 })();
 

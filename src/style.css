@@ -96,6 +96,10 @@ button {
   list-style: none;
 }
 
+input[type=checkbox]:checked + label {
+  text-decoration: line-through;
+}
+
 button {
   outline: none;
   border: none;
@@ -103,7 +107,20 @@ button {
   color: inherit;
 }
 
+button.add {
+  background-color: var(--color-teal);
+  position: fixed;
+  bottom: .5em;
+  left: .5em;
+  color: white;
+  font-size: var(--fs-h1);
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
 button:hover,
-.todo-item .main .due-date:hover {
+.todo-item .main .due-date:hover,
+input[type=checkbox]:hover + label:hover {
   cursor: pointer;
 }
