@@ -20,6 +20,7 @@ const domLogic = (function () {
     const newProjectElement = document.createElement('div');
     newProjectElement.dataset.index = index;
     newProjectElement.classList.add('project-item');
+    newProjectElement.classList.add('active');
 
     const projectTitle = document.createElement('p');
     projectTitle.classList.add('title');
@@ -45,18 +46,18 @@ const domLogic = (function () {
     const mainTodo = document.createElement('div');
     mainTodo.classList.add('main');
 
-    const todoTitle = document.createElement('p');
-    todoTitle.classList.add('title');
-    todoTitle.textContent = todo.title;
-    
     const todoDueDate = document.createElement('p');
     todoDueDate.classList.add('due-date');
     todoDueDate.textContent = todo.dueDateAsDays();
 
+    const todoTitle = document.createElement('p');
+    todoTitle.classList.add('title');
+    todoTitle.textContent = todo.title;
+
     mainTodo.appendChild(createCaretButton());
     mainTodo.appendChild(todoTitle);
-    mainTodo.appendChild(createActionsButton());
     mainTodo.appendChild(todoDueDate);
+    mainTodo.appendChild(createActionsButton());
 
     const expandTodo = document.createElement('div');
     expandTodo.classList.add('expand');
@@ -79,16 +80,16 @@ const domLogic = (function () {
       checklistItem.innerHTML = `<input type="checkbox" data-index="${index}" id="item${index}"><label for="item${index}">${item}</label>`;
       todoChecklistItems.appendChild(checklistItem);
     });
-    const todoChecklistInput = document.createElement('input');
-    todoChecklistInput.type = 'text';
-    const todoChecklistSubmit = document.createElement('input');
-    todoChecklistSubmit.type = 'submit';
-    todoChecklistSubmit.value = 'Add Todo';
-    todoChecklistSubmit.classList.add('submit');
+    // const todoChecklistInput = document.createElement('input');
+    // todoChecklistInput.type = 'text';
+    // const todoChecklistSubmit = document.createElement('input');
+    // todoChecklistSubmit.type = 'submit';
+    // todoChecklistSubmit.value = 'Add Todo';
+    // todoChecklistSubmit.classList.add('submit');
     todoChecklist.appendChild(todoChecklistName);
     todoChecklist.appendChild(todoChecklistItems);
-    todoChecklist.appendChild(todoChecklistInput);
-    todoChecklist.appendChild(todoChecklistSubmit);
+    // todoChecklist.appendChild(todoChecklistInput);
+    // todoChecklist.appendChild(todoChecklistSubmit);
 
     expandTodo.appendChild(todoDescription);
     expandTodo.appendChild(todoNotes);
