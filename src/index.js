@@ -5,22 +5,5 @@ import domLogic from './domLogic';
 import applicationLogic from './applicationLogic';
 
 const todoList = (function(){
-  const projects = [];
-
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const defaultTodo = todo('Start a todo list :)', 'I need to start a todo list.', tomorrow, 1, 'Add some notes here', ('This Is A Checklist').split(' '), false);
-  
-  const defaultProject = project(`Let's Get This Bread`, []);
-  defaultProject.todoList.push(defaultTodo);
-  projects.push(defaultProject);
-  projects.push(defaultProject);
-  
-  domLogic.displayProjectList(projects);
-  projects.forEach((project, index) => {
-    domLogic.displayTodoList(project.todoList, index);
-  });
-  domLogic.displayAddButton();
-
-  applicationLogic.addEventListeners();
+  applicationLogic.initiateTodoProject();
 })();
