@@ -37,6 +37,25 @@ h1,
   padding: .5em;
 }
 
+#actions-list {
+  background-color: var(--color-navy);
+  color: white;
+  position: fixed;
+  padding: 1em;
+  border: 1px solid var(--color-gold);
+  visibility: hidden;
+}
+
+#actions-list #complete:hover,
+#actions-list #edit:hover,
+#actions-list #delete:hover {
+  color: var(--color-gold);
+}
+
+#actions-list.active {
+  visibility: visible;
+}
+
 .project-item,
 .todo-item .main,
 button {
@@ -125,6 +144,7 @@ button.add {
 
 button:hover,
 .todo-item .main .due-date:hover,
-input[type=checkbox]:hover + label:hover {
+input[type=checkbox]:hover,
+#actions-list:hover {
   cursor: pointer;
 }

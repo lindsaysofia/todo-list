@@ -5,6 +5,7 @@ import domLogic from './domLogic';
 const applicationLogic = (function () {
   const projects = [];
   const content = document.querySelector('#content');
+  let actionsList;
 
    const clearActiveProject = () => {
     const activeProject = document.querySelector('.active');
@@ -21,16 +22,28 @@ const applicationLogic = (function () {
     addEventListeners();
   }
 
-  const showActions = e => {
-    console.log(e.target);
+  const hideActions = () => {
+    actionsList.classList.remove('active');
   }
+
+  const showActions = e => {
+    actionsList.classList.add('active');
+    if (e.target.parentElement.classList[0] === 'project-item') {
+      actionsList.style.left = `${e.target.offsetLeft + e.target.offsetWidth}px`;
+      actionsList.style.top = `${e.target.offsetTop - e.target.offsetHeight/4}px`;
+    } else if (e.target.parentElement.classList[0] === 'main') {
+      actionsList.style.left = `${e.target.offsetLeft - (e.target.offsetWidth*4.5)}px`;
+      actionsList.style.top = `${e.target.offsetTop - e.target.offsetHeight/4}px`;
+    }
+  };
 
   const addEventListeners = () => {
     const projectItems = document.querySelectorAll('.project-item');
     const actionsButtons = document.querySelectorAll('.actions');
 
     projectItems.forEach(projectItem => projectItem.addEventListener('click', activateProject));
-    actionsButtons.forEach(actionButton => actionButton.addEventListener('click', showActions));
+    actionsButtons.forEach(actionButton => actionButton.addEventListener('mouseenter', showActions));
+    actionsList.addEventListener('mouseleave', hideActions);
   }
 
   const initiateTodoProject = () => {
@@ -48,12 +61,13 @@ const applicationLogic = (function () {
     projects.push(defaultProject2);
     
     domLogic.displayProjectList(projects);
-    domLogic.displayTodoList(projects[0].todoList, 0);
+    domLogic.displayTodoList(projects[0].todoList);
     let firstProject = document.querySelector('.project-item');
     firstProject.classList.add('active');
 
     domLogic.displayAddButton();
     domLogic.createActionsList();
+    actionsList = document.querySelector('#actions-list');
 
     addEventListeners();
   }

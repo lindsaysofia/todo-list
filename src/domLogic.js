@@ -37,7 +37,7 @@ const domLogic = (function () {
     });
   };
 
-  const createTodoElement = (todo, index, projectIndex) => {
+  const createTodoElement = (todo, index) => {
     const newTodoElement = document.createElement('div');
     newTodoElement.dataset.index = index;
     newTodoElement.classList.add('todo-item');
@@ -74,9 +74,9 @@ const domLogic = (function () {
     const todoChecklistName = document.createElement('p');
     todoChecklistName.textContent = 'Checklist:';
     const todoChecklistItems = document.createElement('ul');
-    todo.checklist.forEach((item, index) => {
+    todo.checklist.forEach(item => {
       let checklistItem = document.createElement('li');
-      checklistItem.innerHTML = `<input type="checkbox" data-index="${index}" id="item${index}${projectIndex}"><label for="item${index}${projectIndex}">${item}</label>`;
+      checklistItem.innerHTML = `<input type="checkbox"><label>${item}</label>`;
       todoChecklistItems.appendChild(checklistItem);
     });
     // const todoChecklistInput = document.createElement('input');
@@ -100,9 +100,9 @@ const domLogic = (function () {
     return newTodoElement;
   };
 
-  const displayTodoList = (todoList, projectIndex) => {
+  const displayTodoList = (todoList) => {
     todoList.forEach((todo, index) => {
-      content.appendChild(createTodoElement(todo, index, projectIndex));
+      content.appendChild(createTodoElement(todo, index));
     })
   };
 
@@ -114,19 +114,24 @@ const domLogic = (function () {
   };
 
   const createActionsList = () => {
-    console.log('hey')
     const actionsList = document.createElement('div');
-    actionsList.classList.add('actions-list');
+    actionsList.id = 'actions-list';
 
     const markAsComplete = document.createElement('p');
+    markAsComplete.id = 'complete';
+    markAsComplete.textContent = 'Mark as Complete';
     const edit = document.createElement('p');
+    edit.id = 'edit';
+    edit.textContent = 'Edit';
     const del = document.createElement('p');
-
+    del.id = 'delete';
+    del.textContent = 'Delete';
+;
     actionsList.appendChild(markAsComplete);
     actionsList.appendChild(edit);
     actionsList.appendChild(del);
 
-    projectsContainer.appendChild(actionsList);
+    document.body.appendChild(actionsList);
   };
 
   return {
