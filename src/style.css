@@ -76,7 +76,7 @@ button {
 }
 
 .project-item.active {
-  background-color: var(--color-yellow);
+  background-color: var(--color-blue);
 }
 
 #content {

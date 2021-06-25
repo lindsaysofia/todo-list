@@ -1,6 +1,8 @@
 import formatDistance from 'date-fns/formatDistance';
 
-function todo(title, description, dueDate, priority, notes, checklist, complete) {
+function todo(title, description, dueDate, priority, notes, checklist, projectIndex) {
+  let complete = false;
+
   const dueDateAsDays = function() {
     return `Due in ${formatDistance(new Date(), dueDate)}`;
   }
@@ -14,6 +16,7 @@ function todo(title, description, dueDate, priority, notes, checklist, complete)
     notes,
     checklist,
     complete,
+    projectIndex,
   };
 
 }

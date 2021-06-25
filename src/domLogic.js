@@ -40,6 +40,7 @@ const domLogic = (function () {
   const createTodoElement = (todo, index) => {
     const newTodoElement = document.createElement('div');
     newTodoElement.dataset.index = index;
+    newTodoElement.dataset.project = todo.projectIndex;
     newTodoElement.classList.add('todo-item');
 
     const mainTodo = document.createElement('div');
