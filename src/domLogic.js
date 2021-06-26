@@ -32,6 +32,7 @@ const domLogic = (function () {
   };
 
   const displayProjectList = projects => {
+    projectsContainer.innerHTML = '';
     projects.forEach((project, index) => {
       projectsContainer.appendChild(createProjectElement(project, index));
     });
@@ -102,6 +103,7 @@ const domLogic = (function () {
   };
 
   const displayTodoList = (todoList) => {
+    content.innerHTML = '';
     todoList.forEach((todo, index) => {
       content.appendChild(createTodoElement(todo, index));
     })
@@ -111,7 +113,7 @@ const domLogic = (function () {
     const addButton = document.createElement('button');
     addButton.classList.add('add');
     addButton.textContent = '+';
-    projectsContainer.appendChild(addButton);
+    document.body.appendChild(addButton);
   };
 
   const createActionsList = () => {

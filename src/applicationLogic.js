@@ -37,18 +37,18 @@ const applicationLogic = (function () {
       actionsList.style.left = `${e.target.offsetLeft}px`;
       actionsList.style.top = `${e.target.offsetTop - e.target.offsetHeight/4}px`;
       lastActionElement = e.target.parentElement;
-      actionsComplete.textContent = projects[+lastActionElement.dataset.index].complete ? 'Mark as Incomplete' : 'Mark As Complete';
     } else if (e.target.parentElement.classList[0] === 'main') {
       actionsList.style.left = `${e.target.offsetLeft - (e.target.offsetWidth*3.5)}px`;
       actionsList.style.top = `${e.target.offsetTop - e.target.offsetHeight/4}px`;
       lastActionElement = e.target.parentElement.parentElement;
-      actionsComplete.textContent = projects[activeProjectIndex].todoList[lastActionElement.dataset.index].complete ? 'Mark as Incomplete' : 'Mark As Complete';
     }
   };
 
   const handleProjectComplete = projectIndex => {
-    projects[projectIndex].complete = true;
-    (document.querySelectorAll('.project-item'))[projectIndex].style.background = 'green';
+    projects.splice(projectIndex, 1);
+    domLogic.displayProjectList(projects);
+    domLogic.displayTodoList(projects.length === 0 ? [] : projects[0].todoList);
+    addEventListeners();
   };
 
   const handleTodoComplete = (todoIndex, projectIndex) => {
