@@ -76,7 +76,7 @@ button {
 }
 
 .project-item.active {
-  background-color: var(--color-blue);
+  background-color: var(--color-gold);
 }
 
 #content {
@@ -115,8 +115,26 @@ button {
 
 .expand {}
 
+.expand .checklist ul {
+}
+
 .expand .checklist li {
   list-style: none;
+}
+
+.expand input {
+}
+
+.expand .submit {
+  border: none;
+  background-color: var(--color-navy);
+  color: white;
+  margin-left: 1em;
+  padding: .5em;
+}
+
+.expand .submit:hover {
+  background-color: var(--color-gold);
 }
 
 input[type=checkbox]:checked + label {
@@ -145,6 +163,7 @@ button.add {
 button:hover,
 .todo-item .main .due-date:hover,
 input[type=checkbox]:hover,
-#actions-list:hover {
+#actions-list:hover,
+.expand .submit:hover {
   cursor: pointer;
 }

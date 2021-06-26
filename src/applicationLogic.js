@@ -1,6 +1,7 @@
 import todo from './todo';
 import project from './project';
 import domLogic from './domLogic';
+import { add } from 'date-fns';
 
 const applicationLogic = (function () {
   const projects = [];
@@ -91,10 +92,20 @@ const applicationLogic = (function () {
     }
   };
 
+  const handleNewTodo = (e) => {
+    e.preventDefault();
+    let newTodoValue = e.target[e.target.length - 2].value;
+    let todoIndex = e.target.parentElement.parentElement.dataset.index;
+    projects[activeProjectIndex].todoList[todoIndex].checklist.push(newTodoValue);
+    domLogic.displayTodoList(projects[activeProjectIndex].todoList);
+    addEventListeners();
+  };
+
   const addEventListeners = () => {
     const projectItems = document.querySelectorAll('.project-item');
     const projectItemTitles = document.querySelectorAll('.project-item .title');
     const actionsButtons = document.querySelectorAll('.actions');
+    const forms = document.querySelectorAll('form');
 
     projectItems.forEach(projectItem => projectItem.addEventListener('click', activateProject));
     projectItemTitles.forEach(title => {
@@ -106,6 +117,7 @@ const applicationLogic = (function () {
     actionsComplete.addEventListener('click', handleCompleteAndDelete);
     actionsEdit.addEventListener('click', handleEdit);
     actionsDelete.addEventListener('click', handleCompleteAndDelete);
+    forms.forEach(form => form.addEventListener('submit', handleNewTodo));
   };
 
   const initiateTodoProject = () => {
