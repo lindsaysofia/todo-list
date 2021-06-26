@@ -1,6 +1,9 @@
+import format from 'date-fns/format';
+
 const domLogic = (function () {
   const projectsContainer = document.querySelector('#projects-container');
   const content = document.querySelector('#content');
+  const currentDate = format(new Date(), 'yyyy/MM/dd');
 
   const createActionsButton = () => {
     const newActionsButton = document.createElement('button');
@@ -124,6 +127,18 @@ const domLogic = (function () {
     addButton.classList.add('add');
     addButton.textContent = '+';
     document.body.appendChild(addButton);
+  };
+
+  const createAddTodoForm = () => {
+    const addForm = document.createElement('form');
+    addForm.innerHTML = `
+      <label for="new-todo-title">Title: </label><input id="new-todo-title" type="text" placeholder="Todo Title">
+      <label for="new-todo-description">Description: </label><input id="new-todo-description" type="text" placeholder="Enter a description">
+      <label for="new-todo-due-date">Due Date: </label><input id="new-todo-due-date" type="date" min="${currentDate}">
+      <label for="new-todo-notes">Notes: </label><input id="new-todo-notes" type="text" placeholder="Enter some notes">
+      <label for="new-todo-priority">Priority: </label><input id="new-todo-priority" type="text" placeholder="Enter some priority">
+
+    `;
   };
 
   const createActionsList = () => {

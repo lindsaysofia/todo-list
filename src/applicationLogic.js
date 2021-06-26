@@ -127,7 +127,7 @@ const applicationLogic = (function () {
     const projectItems = document.querySelectorAll('.project-item');
     const projectItemTitles = document.querySelectorAll('.project-item .title');
     const actionsButtons = document.querySelectorAll('.actions');
-    const forms = document.querySelectorAll('form');
+    const forms = document.querySelectorAll('form.checklist');
     const carets = document.querySelectorAll('.caret');
     const dueDates = document.querySelectorAll('.due-date');
 
