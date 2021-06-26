@@ -147,35 +147,36 @@ const applicationLogic = (function () {
   };
 
   const initiateTodoProject = () => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const defaultProject = project(`Let's Get This Bread`, []);
-    const defaultTodo00 = todo('Start a todo list :)', 'I need to start a todo list.', tomorrow, 1, 'Add some notes here', ('This Is A Checklist').split(' '), 0);
-    const defaultTodo01 = todo('Start a todo list :)', 'I need to start a todo list.', tomorrow, 2, 'Add some notes here', ('This Is A Checklist').split(' '), 0);
-    const defaultProject2 = project(`Let's Get This Bread Part 2 Let's Get This Bread Part 2`, []);
-    const defaultTodo10 = todo('Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :)', 'I need to start a todo list.', tomorrow, 3, 'Add some notes here', ('This Is A Checklist').split(' '), 1);
-    const defaultTodo11 = todo('Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :)', 'I need to start a todo list.', tomorrow, 1, 'Add some notes here', ('This Is A Checklist').split(' '), 1);
-    defaultProject.todoList.push(defaultTodo00);
-    defaultProject.todoList.push(defaultTodo01);
-    defaultProject2.todoList.push(defaultTodo10);
-    defaultProject2.todoList.push(defaultTodo11);
-    projects.push(defaultProject);
-    projects.push(defaultProject2);
+    // const tomorrow = new Date();
+    // tomorrow.setDate(tomorrow.getDate() + 1);
+    // const defaultProject = project(`Let's Get This Bread`, []);
+    // const defaultTodo00 = todo('Start a todo list :)', 'I need to start a todo list.', tomorrow, 1, 'Add some notes here', ('This Is A Checklist').split(' '), 0);
+    // const defaultTodo01 = todo('Start a todo list :)', 'I need to start a todo list.', tomorrow, 2, 'Add some notes here', ('This Is A Checklist').split(' '), 0);
+    // const defaultProject2 = project(`Let's Get This Bread Part 2 Let's Get This Bread Part 2`, []);
+    // const defaultTodo10 = todo('Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :)', 'I need to start a todo list.', tomorrow, 3, 'Add some notes here', ('This Is A Checklist').split(' '), 1);
+    // const defaultTodo11 = todo('Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :)', 'I need to start a todo list.', tomorrow, 1, 'Add some notes here', ('This Is A Checklist').split(' '), 1);
+    // defaultProject.todoList.push(defaultTodo00);
+    // defaultProject.todoList.push(defaultTodo01);
+    // defaultProject2.todoList.push(defaultTodo10);
+    // defaultProject2.todoList.push(defaultTodo11);
+    // projects.push(defaultProject);
+    // projects.push(defaultProject2);
     
-    domLogic.displayProjectList(projects);
-    domLogic.displayTodoList(projects[0].todoList);
-    let firstProject = document.querySelector('.project-item');
-    firstProject.classList.add('active');
-    activeProjectIndex = 0;
+    // domLogic.displayProjectList(projects);
+    // domLogic.displayTodoList(projects[0].todoList);
+    // let firstProject = document.querySelector('.project-item');
+    // firstProject.classList.add('active');
+    // activeProjectIndex = 0;
 
-    domLogic.displayAddButton();
-    domLogic.createActionsList();
-    actionsList = document.querySelector('#actions-list');
-    actionsComplete = document.querySelector('#complete');
-    actionsEdit = document.querySelector('#edit');
-    actionsDelete = document.querySelector('#delete');
+    // domLogic.displayAddButton();
+    // domLogic.createActionsList();
+    // actionsList = document.querySelector('#actions-list');
+    // actionsComplete = document.querySelector('#complete');
+    // actionsEdit = document.querySelector('#edit');
+    // actionsDelete = document.querySelector('#delete');
 
-    addEventListeners();
+    // addEventListeners();
+    domLogic.createAddTodoForm();
   }
 
   return {

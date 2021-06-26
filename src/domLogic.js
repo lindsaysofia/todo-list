@@ -131,14 +131,38 @@ const domLogic = (function () {
 
   const createAddTodoForm = () => {
     const addForm = document.createElement('form');
+    addForm.id = "new-todo";
     addForm.innerHTML = `
-      <label for="new-todo-title">Title: </label><input id="new-todo-title" type="text" placeholder="Todo Title">
-      <label for="new-todo-description">Description: </label><input id="new-todo-description" type="text" placeholder="Enter a description">
-      <label for="new-todo-due-date">Due Date: </label><input id="new-todo-due-date" type="date" min="${currentDate}">
-      <label for="new-todo-notes">Notes: </label><input id="new-todo-notes" type="text" placeholder="Enter some notes">
-      <label for="new-todo-priority">Priority: </label><input id="new-todo-priority" type="text" placeholder="Enter some priority">
-
+      <div>
+        <label for="new-todo-title">Title: </label>
+        <input id="new-todo-title" type="text" placeholder="Todo Title" required>
+      </div>
+      <div>
+        <label for="new-todo-description">Description: </label>
+        <input id="new-todo-description" type="text" placeholder="Enter a description" required>
+      </div>
+      <div>
+        <label for="new-todo-notes">Notes: </label>
+        <input id="new-todo-notes" type="text" placeholder="Enter some notes" required>
+      </div>
+      <div>
+        <label for="new-todo-due-date">Due Date: </label>
+        <input id="new-todo-due-date" type="date" min="${currentDate}" required>
+      </div>
+      <div>
+        <label for="new-todo-priority">Priority: </label>
+        <select name="priority" id="new-todo-priority" required>
+          <option value="">--Please choose an option--</option>
+          <option value="1">High</option>
+          <option value="2">Medium</option>
+          <option value="3">Low</option>
+        </select>
+      </div>
+      <div>
+        <input type="submit" value="Create New Todo">
+      </div>      
     `;
+    document.body.appendChild(addForm);
   };
 
   const createActionsList = () => {
@@ -167,6 +191,7 @@ const domLogic = (function () {
     displayTodoList,
     displayAddButton,
     createActionsList,
+    createAddTodoForm,
   };
 })();
 
