@@ -66,15 +66,46 @@ const applicationLogic = (function () {
     }
   };
 
+  const handleProjectChange = e => {
+    let newTitle = e.target.textContent;
+    projects[activeProjectIndex].title = newTitle;
+  };
+
+  const handleProjectChangeEnd = () => {
+    let title = lastActionElement.querySelector('.title');
+    title.contentEditable = false;
+  };
+
+  const handleProjectEdit = (projectIndex) => {
+    let title = lastActionElement.querySelector('.title');
+    title.contentEditable = true;
+    activeProjectIndex = projectIndex;
+    title.focus();
+  }
+
+  const handleEdit = () => {
+    if (lastActionElement.classList[0] === 'project-item') {
+      handleProjectEdit(lastActionElement.dataset.index);
+    } else if (lastActionElement.classList[0] === 'todo-item') {
+      handleTodoEdit(lastActionElement.dataset.index, activeProjectIndex);
+    }
+  };
+
   const addEventListeners = () => {
     const projectItems = document.querySelectorAll('.project-item');
+    const projectItemTitles = document.querySelectorAll('.project-item .title');
     const actionsButtons = document.querySelectorAll('.actions');
 
     projectItems.forEach(projectItem => projectItem.addEventListener('click', activateProject));
+    projectItemTitles.forEach(title => {
+      title.addEventListener('input', handleProjectChange);
+      title.addEventListener('blur', handleProjectChangeEnd);
+    });
     actionsButtons.forEach(actionButton => actionButton.addEventListener('mouseenter', showActions));
     actionsList.addEventListener('mouseleave', hideActions);
+    actionsComplete.addEventListener('click', handleCompleteAndDelete);
+    actionsEdit.addEventListener('click', handleEdit);
     actionsDelete.addEventListener('click', handleCompleteAndDelete);
-
   };
 
   const initiateTodoProject = () => {
