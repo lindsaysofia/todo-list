@@ -82,7 +82,11 @@ const applicationLogic = (function () {
     title.contentEditable = true;
     activeProjectIndex = projectIndex;
     title.focus();
-  }
+  };
+
+  const handleTodoEdit = (todoIndex, projectIndex) => {
+    console.log('edit');
+  };
 
   const handleEdit = () => {
     if (lastActionElement.classList[0] === 'project-item') {
@@ -101,11 +105,20 @@ const applicationLogic = (function () {
     addEventListeners();
   };
 
+  const toggleTodoExpand = (e) => {
+    let todoParent = e.target.parentElement.parentElement;
+    let todoExpand = todoParent.querySelector('.expand');
+    todoExpand.classList.toggle('active');
+    console.log(e.target.innerHTML);
+    e.target.innerHTML = e.target.innerHTML === '∨' ? '&and;' : '&or;';
+  }
+
   const addEventListeners = () => {
     const projectItems = document.querySelectorAll('.project-item');
     const projectItemTitles = document.querySelectorAll('.project-item .title');
     const actionsButtons = document.querySelectorAll('.actions');
     const forms = document.querySelectorAll('form');
+    const carets = document.querySelectorAll('.caret');
 
     projectItems.forEach(projectItem => projectItem.addEventListener('click', activateProject));
     projectItemTitles.forEach(title => {
@@ -118,6 +131,7 @@ const applicationLogic = (function () {
     actionsEdit.addEventListener('click', handleEdit);
     actionsDelete.addEventListener('click', handleCompleteAndDelete);
     forms.forEach(form => form.addEventListener('submit', handleNewTodo));
+    carets.forEach(caret => caret.addEventListener('click', toggleTodoExpand));
   };
 
   const initiateTodoProject = () => {

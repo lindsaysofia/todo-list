@@ -89,8 +89,12 @@ button {
   border-top: 1px solid var(--color-gold);
 }
 
-.todo-item {
-  
+.todo-item .expand {
+  display: none;
+}
+
+.todo-item .expand.active {
+  display: block;
 }
 
 .todo-item .main {
