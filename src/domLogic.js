@@ -130,37 +130,42 @@ const domLogic = (function () {
   };
 
   const createAddTodoForm = () => {
-    const addForm = document.createElement('form');
-    addForm.id = "new-todo";
+    const addForm = document.createElement('div');
+    addForm.id = "new-todo-container";
     addForm.innerHTML = `
-      <div>
-        <label for="new-todo-title">Title: </label>
-        <input id="new-todo-title" type="text" placeholder="Todo Title" required>
+      <div class="close">
+        <button>X</button>
       </div>
-      <div>
-        <label for="new-todo-description">Description: </label>
-        <input id="new-todo-description" type="text" placeholder="Enter a description" required>
-      </div>
-      <div>
-        <label for="new-todo-notes">Notes: </label>
-        <input id="new-todo-notes" type="text" placeholder="Enter some notes" required>
-      </div>
-      <div>
-        <label for="new-todo-due-date">Due Date: </label>
-        <input id="new-todo-due-date" type="date" min="${currentDate}" required>
-      </div>
-      <div>
-        <label for="new-todo-priority">Priority: </label>
-        <select name="priority" id="new-todo-priority" required>
-          <option value="">--Please choose an option--</option>
-          <option value="1">High</option>
-          <option value="2">Medium</option>
-          <option value="3">Low</option>
-        </select>
-      </div>
-      <div>
-        <input type="submit" value="Create New Todo">
-      </div>      
+      <form id="new-todo">
+        <div>
+          <label for="new-todo-title">Title: </label>
+          <input id="new-todo-title" type="text" placeholder="Todo Title" required>
+        </div>
+        <div>
+          <label for="new-todo-description">Description: </label>
+          <input id="new-todo-description" type="text" placeholder="Enter a description" required>
+        </div>
+        <div>
+          <label for="new-todo-notes">Notes: </label>
+          <input id="new-todo-notes" type="text" placeholder="Enter some notes" required>
+        </div>
+        <div>
+          <label for="new-todo-due-date">Due Date: </label>
+          <input id="new-todo-due-date" type="date" min="${currentDate}" required>
+        </div>
+        <div>
+          <label for="new-todo-priority">Priority: </label>
+          <select name="priority" id="new-todo-priority" required>
+            <option value="">--Please choose an option--</option>
+            <option value="1">High</option>
+            <option value="2">Medium</option>
+            <option value="3">Low</option>
+          </select>
+        </div>
+        <divc class="submit-button">
+          <input type="submit" value="Create New Todo">
+        </div> 
+      </form>     
     `;
     document.body.appendChild(addForm);
   };

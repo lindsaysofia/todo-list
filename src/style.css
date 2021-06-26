@@ -187,12 +187,48 @@ button:hover,
 .todo-item .main .due-date:hover,
 input[type=checkbox]:hover,
 #actions-list:hover,
-.expand .submit:hover {
+.expand .submit:hover,
+.submit-button input:hover {
   cursor: pointer;
 }
 
-form#new-todo {
+#new-todo-container {
   position: fixed;
-  top: 25vh;
-  left: 25vw;
+  background-color: var(--color-yellow);
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-gold);
+}
+
+#new-todo-container .close {
+  align-self: flex-end;
+}
+
+form#new-todo {
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+}
+
+form#new-todo div {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 1em;
+  padding: .5em;
+}
+
+form#new-todo div input {
+  justify-self: start;
+}
+
+.submit-button {
+  justify-self: center;
+  align-self: center;
+}
+
+.submit-button input {
+  border: none;
+  background-color: var(--color-navy);
+  color: white;
+  padding: .5em;
 }
