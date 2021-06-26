@@ -9,10 +9,10 @@ const domLogic = (function () {
     return newActionsButton;
   };
 
-  const createCaretButton = () => {
+  const createCaretButton = (isActive) => {
     const newCaretButton = document.createElement('button');
     newCaretButton.classList.add('caret');
-    newCaretButton.innerHTML = `&or;`;
+    newCaretButton.innerHTML = isActive ? '&and;' : '&or;';
     return newCaretButton;
   };
 
@@ -49,19 +49,29 @@ const domLogic = (function () {
 
     const todoDueDate = document.createElement('p');
     todoDueDate.classList.add('due-date');
-    todoDueDate.textContent = todo.dueDateAsDays();
+    if (todo.priority === 1) {
+      todoDueDate.classList.add('high');
+    } else if (todo.priority === 2) {
+      todoDueDate.classList.add('medium');
+    } else if (todo.priority === 3) {
+      todoDueDate.classList.add('low');
+    }
+    todoDueDate.textContent = todo.isDueDateADate ? todo.dueDateAsDate() : todo.dueDateAsDays();
 
     const todoTitle = document.createElement('p');
     todoTitle.classList.add('title');
     todoTitle.textContent = todo.title;
 
-    mainTodo.appendChild(createCaretButton());
+    mainTodo.appendChild(createCaretButton(todo.isActive));
     mainTodo.appendChild(todoTitle);
     mainTodo.appendChild(todoDueDate);
     mainTodo.appendChild(createActionsButton());
 
     const expandTodo = document.createElement('div');
     expandTodo.classList.add('expand');
+    if (todo.isActive) {
+      expandTodo.classList.add('active');
+    }
 
     const todoDescription = document.createElement('p');
     todoDescription.classList.add('description');

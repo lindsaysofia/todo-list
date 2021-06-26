@@ -96,7 +96,7 @@ const applicationLogic = (function () {
     }
   };
 
-  const handleNewTodo = (e) => {
+  const handleNewChecklistItem = (e) => {
     e.preventDefault();
     let newTodoValue = e.target[e.target.length - 2].value;
     let todoIndex = e.target.parentElement.parentElement.dataset.index;
@@ -106,11 +106,21 @@ const applicationLogic = (function () {
   };
 
   const toggleTodoExpand = (e) => {
-    let todoParent = e.target.parentElement.parentElement;
-    let todoExpand = todoParent.querySelector('.expand');
+    let todoItemElement = e.target.parentElement.parentElement;
+    let todoItemIndex = todoItemElement.dataset.index;
+    let todoExpand = todoItemElement.querySelector('.expand');
     todoExpand.classList.toggle('active');
-    console.log(e.target.innerHTML);
-    e.target.innerHTML = e.target.innerHTML === '∨' ? '&and;' : '&or;';
+    let todo = projects[activeProjectIndex].todoList[todoItemIndex];
+    todo.isActive = !todo.isActive;
+    e.target.innerHTML = todo.isActive ? '&and;' : '&or;';
+  }
+
+  const toggleDueDate = (e) => {
+    let todoItemElement = e.target.parentElement.parentElement;
+    let todoItemIndex = todoItemElement.dataset.index;
+    let todo = projects[activeProjectIndex].todoList[todoItemIndex];
+    todo.isDueDateADate = !todo.isDueDateADate;
+    e.target.innerHTML = todo.isDueDateADate ? todo.dueDateAsDate() : todo.dueDateAsDays();
   }
 
   const addEventListeners = () => {
@@ -119,6 +129,7 @@ const applicationLogic = (function () {
     const actionsButtons = document.querySelectorAll('.actions');
     const forms = document.querySelectorAll('form');
     const carets = document.querySelectorAll('.caret');
+    const dueDates = document.querySelectorAll('.due-date');
 
     projectItems.forEach(projectItem => projectItem.addEventListener('click', activateProject));
     projectItemTitles.forEach(title => {
@@ -130,8 +141,9 @@ const applicationLogic = (function () {
     actionsComplete.addEventListener('click', handleCompleteAndDelete);
     actionsEdit.addEventListener('click', handleEdit);
     actionsDelete.addEventListener('click', handleCompleteAndDelete);
-    forms.forEach(form => form.addEventListener('submit', handleNewTodo));
+    forms.forEach(form => form.addEventListener('submit', handleNewChecklistItem));
     carets.forEach(caret => caret.addEventListener('click', toggleTodoExpand));
+    dueDates.forEach(dueDate => dueDate.addEventListener('click', toggleDueDate));
   };
 
   const initiateTodoProject = () => {
@@ -139,9 +151,9 @@ const applicationLogic = (function () {
     tomorrow.setDate(tomorrow.getDate() + 1);
     const defaultProject = project(`Let's Get This Bread`, []);
     const defaultTodo00 = todo('Start a todo list :)', 'I need to start a todo list.', tomorrow, 1, 'Add some notes here', ('This Is A Checklist').split(' '), 0);
-    const defaultTodo01 = todo('Start a todo list :)', 'I need to start a todo list.', tomorrow, 1, 'Add some notes here', ('This Is A Checklist').split(' '), 0);
+    const defaultTodo01 = todo('Start a todo list :)', 'I need to start a todo list.', tomorrow, 2, 'Add some notes here', ('This Is A Checklist').split(' '), 0);
     const defaultProject2 = project(`Let's Get This Bread Part 2 Let's Get This Bread Part 2`, []);
-    const defaultTodo10 = todo('Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :)', 'I need to start a todo list.', tomorrow, 1, 'Add some notes here', ('This Is A Checklist').split(' '), 1);
+    const defaultTodo10 = todo('Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :)', 'I need to start a todo list.', tomorrow, 3, 'Add some notes here', ('This Is A Checklist').split(' '), 1);
     const defaultTodo11 = todo('Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :)', 'I need to start a todo list.', tomorrow, 1, 'Add some notes here', ('This Is A Checklist').split(' '), 1);
     defaultProject.todoList.push(defaultTodo00);
     defaultProject.todoList.push(defaultTodo01);
@@ -167,7 +179,6 @@ const applicationLogic = (function () {
   }
 
   return {
-    addEventListeners,
     initiateTodoProject
   };
 })();

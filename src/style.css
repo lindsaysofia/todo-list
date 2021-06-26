@@ -5,6 +5,8 @@
   --color-teal: #1A9695;
   --color-gold: #D69510;
   --color-yellow: #F2D676;
+  --color-red: red;
+  --color-green: green;
   --fs-h1: 2.5em;
   --fs-main: 1.25em;
 }
@@ -101,7 +103,7 @@ button {
   display: grid;
   grid-template-columns: 5% 45% 45% 5%;
   align-items: center;
-  background-color: var(--color-teal);
+  background-color: var(--color-navy);
   color: white;
 }
 
@@ -111,6 +113,23 @@ button {
 
 .todo-item .caret {
   justify-self: start;
+}
+
+.todo-item .due-date.high {
+  color: var(--color-red);
+}
+
+.todo-item .due-date.medium {
+  color: var(--color-gold);
+}
+
+.todo-item .due-date.low {
+  color: var(--color-green);
+}
+
+
+.todo-item .due-date {
+  justify-self: center;
 }
 
 .todo-item .actions {
