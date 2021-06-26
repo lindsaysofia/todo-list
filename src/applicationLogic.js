@@ -44,23 +44,25 @@ const applicationLogic = (function () {
     }
   };
 
-  const handleProjectComplete = projectIndex => {
+  const handleProjectCompleteAndDelete = projectIndex => {
     projects.splice(projectIndex, 1);
     domLogic.displayProjectList(projects);
     domLogic.displayTodoList(projects.length === 0 ? [] : projects[0].todoList);
+    activeProjectIndex = 0;
     addEventListeners();
   };
 
-  const handleTodoComplete = (todoIndex, projectIndex) => {
-    projects[projectIndex].todoList[todoIndex].complete = true;
-    (document.querySelectorAll('.todo-item'))[todoIndex].style.background = 'green';
+  const handleTodoCompleteAndDelete = (todoIndex, projectIndex) => {
+    projects[projectIndex].todoList.splice(todoIndex, 1);
+    domLogic.displayTodoList(projects[projectIndex].todoList);
+    addEventListeners();
   };
 
-  const handleComplete = () => {
+  const handleCompleteAndDelete = () => {
     if (lastActionElement.classList[0] === 'project-item') {
-      handleProjectComplete(lastActionElement.dataset.index);
+      handleProjectCompleteAndDelete(lastActionElement.dataset.index);
     } else if (lastActionElement.classList[0] === 'todo-item') {
-      handleTodoComplete(lastActionElement.dataset.index, activeProjectIndex);
+      handleTodoCompleteAndDelete(lastActionElement.dataset.index, activeProjectIndex);
     }
   };
 
@@ -71,7 +73,8 @@ const applicationLogic = (function () {
     projectItems.forEach(projectItem => projectItem.addEventListener('click', activateProject));
     actionsButtons.forEach(actionButton => actionButton.addEventListener('mouseenter', showActions));
     actionsList.addEventListener('mouseleave', hideActions);
-    actionsComplete.addEventListener('click', handleComplete);
+    actionsDelete.addEventListener('click', handleCompleteAndDelete);
+
   };
 
   const initiateTodoProject = () => {
