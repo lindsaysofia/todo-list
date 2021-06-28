@@ -1,4 +1,5 @@
 import format from 'date-fns/format';
+import project from './project';
 
 const domLogic = (function () {
   const projectsContainer = document.querySelector('#projects-container');
@@ -129,12 +130,12 @@ const domLogic = (function () {
     document.body.appendChild(addButton);
   };
 
-  const createAddTodoForm = () => {
+  const createAddTodoForm = (projects) => {
     const addForm = document.createElement('div');
     addForm.id = "new-todo-container";
     addForm.innerHTML = `
       <div class="close">
-        <button>X</button>
+        <button class="close-todo-form">X</button>
       </div>
       <form id="new-todo">
         <div>
@@ -160,6 +161,13 @@ const domLogic = (function () {
             <option value="1">High</option>
             <option value="2">Medium</option>
             <option value="3">Low</option>
+          </select>
+          <label for="new-todo-project">Project: </label>
+          <select name="project" id="new-todo-project" required>
+            <option value="">--Please choose an option--</option>
+            ${(projects.map((project, index) => {
+              return `<option value="${index}">${project.title}</option>`;
+            })).join('')}
           </select>
         </div>
         <divc class="submit-button">

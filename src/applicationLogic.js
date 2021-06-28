@@ -14,7 +14,7 @@ const applicationLogic = (function () {
   let activeProjectIndex;
 
    const clearActiveProject = () => {
-    const activeProject = document.querySelector('.active');
+    const activeProject = document.querySelector('.project-item.active');
     activeProject.classList.remove('active');
     content.innerHTML = '';
    }
@@ -99,6 +99,7 @@ const applicationLogic = (function () {
   const handleNewChecklistItem = (e) => {
     e.preventDefault();
     let newTodoValue = e.target[e.target.length - 2].value;
+    if (newTodoValue === '') return;
     let todoIndex = e.target.parentElement.parentElement.dataset.index;
     projects[activeProjectIndex].todoList[todoIndex].checklist.push(newTodoValue);
     domLogic.displayTodoList(projects[activeProjectIndex].todoList);
@@ -113,7 +114,7 @@ const applicationLogic = (function () {
     let todo = projects[activeProjectIndex].todoList[todoItemIndex];
     todo.isActive = !todo.isActive;
     e.target.innerHTML = todo.isActive ? '&and;' : '&or;';
-  }
+  };
 
   const toggleDueDate = (e) => {
     let todoItemElement = e.target.parentElement.parentElement;
@@ -121,6 +122,35 @@ const applicationLogic = (function () {
     let todo = projects[activeProjectIndex].todoList[todoItemIndex];
     todo.isDueDateADate = !todo.isDueDateADate;
     e.target.innerHTML = todo.isDueDateADate ? todo.dueDateAsDate() : todo.dueDateAsDays();
+  };
+
+  const handleAddButton = () => {
+    const addForm = document.querySelector('#new-todo-container');
+    addForm.classList.add('active');
+    addForm.style.top = `${(document.body.offsetHeight / 2) - (addForm.offsetHeight / 2)}px`;
+    addForm.style.left = `${(document.body.offsetWidth / 2) - (addForm.offsetWidth / 2)}px`;
+  };
+
+  const handleCloseTodoForm = () => {
+    const addForm = document.querySelector('#new-todo-container');
+    addForm.classList.remove('active');
+  };
+
+  const handleNewTodoSubmit = e => {
+    e.preventDefault();
+    let title = e.target[0].value;
+    let description = e.target[1].value;
+    let notes = e.target[2].value;
+    let dueDate = new Date(e.target[3].value);
+    let priority = e.target[4].value;
+    let projectIndex = e.target[5].value;
+    projects[projectIndex].todoList.push(todo(title, description, dueDate, priority, notes, [], projectIndex));
+    domLogic.displayProjectList(projects);
+    const activeProject = document.querySelectorAll('.project-item')[activeProjectIndex];
+    activeProject.classList.add('active');
+    domLogic.displayTodoList(projects[activeProjectIndex].todoList);
+    addEventListeners();
+    handleCloseTodoForm();
   }
 
   const addEventListeners = () => {
@@ -130,6 +160,9 @@ const applicationLogic = (function () {
     const forms = document.querySelectorAll('form.checklist');
     const carets = document.querySelectorAll('.caret');
     const dueDates = document.querySelectorAll('.due-date');
+    const addButton = document.querySelector('.add');
+    const closeTodoButton = document.querySelector('.close-todo-form');
+    const newTodoForm = document.querySelector('#new-todo');
 
     projectItems.forEach(projectItem => projectItem.addEventListener('click', activateProject));
     projectItemTitles.forEach(title => {
@@ -144,39 +177,42 @@ const applicationLogic = (function () {
     forms.forEach(form => form.addEventListener('submit', handleNewChecklistItem));
     carets.forEach(caret => caret.addEventListener('click', toggleTodoExpand));
     dueDates.forEach(dueDate => dueDate.addEventListener('click', toggleDueDate));
+    addButton.addEventListener('click', handleAddButton);
+    closeTodoButton.addEventListener('click', handleCloseTodoForm);
+    newTodoForm.addEventListener('submit', handleNewTodoSubmit);
   };
 
   const initiateTodoProject = () => {
-    // const tomorrow = new Date();
-    // tomorrow.setDate(tomorrow.getDate() + 1);
-    // const defaultProject = project(`Let's Get This Bread`, []);
-    // const defaultTodo00 = todo('Start a todo list :)', 'I need to start a todo list.', tomorrow, 1, 'Add some notes here', ('This Is A Checklist').split(' '), 0);
-    // const defaultTodo01 = todo('Start a todo list :)', 'I need to start a todo list.', tomorrow, 2, 'Add some notes here', ('This Is A Checklist').split(' '), 0);
-    // const defaultProject2 = project(`Let's Get This Bread Part 2 Let's Get This Bread Part 2`, []);
-    // const defaultTodo10 = todo('Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :)', 'I need to start a todo list.', tomorrow, 3, 'Add some notes here', ('This Is A Checklist').split(' '), 1);
-    // const defaultTodo11 = todo('Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :)', 'I need to start a todo list.', tomorrow, 1, 'Add some notes here', ('This Is A Checklist').split(' '), 1);
-    // defaultProject.todoList.push(defaultTodo00);
-    // defaultProject.todoList.push(defaultTodo01);
-    // defaultProject2.todoList.push(defaultTodo10);
-    // defaultProject2.todoList.push(defaultTodo11);
-    // projects.push(defaultProject);
-    // projects.push(defaultProject2);
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const defaultProject = project(`Let's Get This Bread`, []);
+    const defaultTodo00 = todo('Start a todo list :)', 'I need to start a todo list.', tomorrow, 1, 'Add some notes here', ('This Is A Checklist').split(' '), 0);
+    const defaultTodo01 = todo('Start a todo list :)', 'I need to start a todo list.', tomorrow, 2, 'Add some notes here', ('This Is A Checklist').split(' '), 0);
+    const defaultProject2 = project(`Let's Get This Bread Part 2 Let's Get This Bread Part 2`, []);
+    const defaultTodo10 = todo('Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :)', 'I need to start a todo list.', tomorrow, 3, 'Add some notes here', ('This Is A Checklist').split(' '), 1);
+    const defaultTodo11 = todo('Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :)', 'I need to start a todo list.', tomorrow, 1, 'Add some notes here', ('This Is A Checklist').split(' '), 1);
+    defaultProject.todoList.push(defaultTodo00);
+    defaultProject.todoList.push(defaultTodo01);
+    defaultProject2.todoList.push(defaultTodo10);
+    defaultProject2.todoList.push(defaultTodo11);
+    projects.push(defaultProject);
+    projects.push(defaultProject2);
     
-    // domLogic.displayProjectList(projects);
-    // domLogic.displayTodoList(projects[0].todoList);
-    // let firstProject = document.querySelector('.project-item');
-    // firstProject.classList.add('active');
-    // activeProjectIndex = 0;
+    domLogic.displayProjectList(projects);
+    domLogic.displayTodoList(projects[0].todoList);
+    let firstProject = document.querySelector('.project-item');
+    firstProject.classList.add('active');
+    activeProjectIndex = 0;
 
-    // domLogic.displayAddButton();
-    // domLogic.createActionsList();
-    // actionsList = document.querySelector('#actions-list');
-    // actionsComplete = document.querySelector('#complete');
-    // actionsEdit = document.querySelector('#edit');
-    // actionsDelete = document.querySelector('#delete');
+    domLogic.displayAddButton();
+    domLogic.createActionsList();
+    domLogic.createAddTodoForm(projects);
+    actionsList = document.querySelector('#actions-list');
+    actionsComplete = document.querySelector('#complete');
+    actionsEdit = document.querySelector('#edit');
+    actionsDelete = document.querySelector('#delete');
 
-    // addEventListeners();
-    domLogic.createAddTodoForm();
+    addEventListeners();
   }
 
   return {

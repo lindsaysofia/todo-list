@@ -199,6 +199,10 @@ input[type=checkbox]:hover,
   display: flex;
   flex-direction: column;
   border: 1px solid var(--color-gold);
+  visibility: hidden;
+}
+#new-todo-container.active {
+  visibility: visible;
 }
 
 #new-todo-container .close {
