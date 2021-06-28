@@ -124,11 +124,23 @@ const applicationLogic = (function () {
     e.target.innerHTML = todo.isDueDateADate ? todo.dueDateAsDate() : todo.dueDateAsDays();
   };
 
-  const handleAddButton = () => {
+  const handleNewTodo = () => {
     const addForm = document.querySelector('#new-todo-container');
     addForm.classList.add('active');
     addForm.style.top = `${(document.body.offsetHeight / 2) - (addForm.offsetHeight / 2)}px`;
     addForm.style.left = `${(document.body.offsetWidth / 2) - (addForm.offsetWidth / 2)}px`;
+  };
+
+  const handleAddButton = () => {
+    const addNew = document.querySelector('#create-new-item');
+    addNew.classList.add('active');
+    addNew.style.top = `${(document.body.offsetHeight / 2) - (addNew.offsetHeight / 2)}px`;
+    addNew.style.left = `${(document.body.offsetWidth / 2) - (addNew.offsetWidth / 2)}px`;
+  };
+
+  const handleCloseAddNew = () => {
+    const addForm = document.querySelector('#create-new-item');
+    addForm.classList.remove('active');
   };
 
   const handleCloseTodoForm = () => {
@@ -161,7 +173,9 @@ const applicationLogic = (function () {
     const carets = document.querySelectorAll('.caret');
     const dueDates = document.querySelectorAll('.due-date');
     const addButton = document.querySelector('.add');
+    const closeAddNewButton = document.querySelector('.close-new-add-container');
     const closeTodoButton = document.querySelector('.close-todo-form');
+    const addNewButtons = document.querySelectorAll('#create-new-item .add-new button');
     const newTodoForm = document.querySelector('#new-todo');
 
     projectItems.forEach(projectItem => projectItem.addEventListener('click', activateProject));
@@ -178,6 +192,7 @@ const applicationLogic = (function () {
     carets.forEach(caret => caret.addEventListener('click', toggleTodoExpand));
     dueDates.forEach(dueDate => dueDate.addEventListener('click', toggleDueDate));
     addButton.addEventListener('click', handleAddButton);
+    closeAddNewButton.addEventListener('click', handleCloseAddNew);
     closeTodoButton.addEventListener('click', handleCloseTodoForm);
     newTodoForm.addEventListener('submit', handleNewTodoSubmit);
   };
@@ -207,6 +222,7 @@ const applicationLogic = (function () {
     domLogic.displayAddButton();
     domLogic.createActionsList();
     domLogic.createAddTodoForm(projects);
+    domLogic.createAddForm();
     actionsList = document.querySelector('#actions-list');
     actionsComplete = document.querySelector('#complete');
     actionsEdit = document.querySelector('#edit');

@@ -1,3 +1,4 @@
+import { add } from 'date-fns';
 import format from 'date-fns/format';
 import project from './project';
 
@@ -199,11 +200,27 @@ const domLogic = (function () {
     document.body.appendChild(actionsList);
   };
 
+  const createAddForm = () => {
+    const newAddContainer = document.createElement('div');
+    newAddContainer.id = 'create-new-item';
+    newAddContainer.innerHTML = `
+    <div class="close">
+      <button class="close-new-add-container">X</button>
+    </div>
+    <div class="add-new">
+        <button class="add-new-project">New Project</button>
+        <button class="add-new-todo">New Todo</button>
+    </div>
+    `;
+    document.body.appendChild(newAddContainer);
+  };
+
   return {
     displayProjectList,
     displayTodoList,
     displayAddButton,
     createActionsList,
+    createAddForm,
     createAddTodoForm,
   };
 })();
