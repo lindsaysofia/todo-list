@@ -5,7 +5,7 @@ import project from './project';
 const domLogic = (function () {
   const projectsContainer = document.querySelector('#projects-container');
   const content = document.querySelector('#content');
-  const currentDate = format(new Date(), 'yyyy/MM/dd');
+  const currentDate = format(new Date(), 'yyyy-MM-dd');
 
   const createActionsButton = () => {
     const newActionsButton = document.createElement('button');
@@ -54,11 +54,11 @@ const domLogic = (function () {
 
     const todoDueDate = document.createElement('p');
     todoDueDate.classList.add('due-date');
-    if (todo.priority === 1) {
+    if (todo.priority == 1) {
       todoDueDate.classList.add('high');
-    } else if (todo.priority === 2) {
+    } else if (todo.priority == 2) {
       todoDueDate.classList.add('medium');
-    } else if (todo.priority === 3) {
+    } else if (todo.priority == 3) {
       todoDueDate.classList.add('low');
     }
     todoDueDate.textContent = todo.isDueDateADate ? todo.dueDateAsDate() : todo.dueDateAsDays();
@@ -131,7 +131,27 @@ const domLogic = (function () {
     document.body.appendChild(addButton);
   };
 
-  const createAddTodoForm = (projects) => {
+  const createAddProjectForm = () => {
+    const addForm = document.createElement('div');
+    addForm.id = "new-project-container";
+    addForm.innerHTML = `
+      <div class="close">
+        <button class="close-project-form">X</button>
+      </div>
+      <form id="new-project">
+        <div class="new-title">
+          <label for="new-project-title">Title: </label>
+          <input id="new-project-title" type="text" placeholder="Project Title" required>
+        </div>
+        <div class="submit-button">
+          <input type="submit" value="Create New Project">
+        </div> 
+      </form>     
+    `;
+    document.body.appendChild(addForm);
+  };
+
+  const createAddTodoForm = projects => {
     const addForm = document.createElement('div');
     addForm.id = "new-todo-container";
     addForm.innerHTML = `
@@ -165,13 +185,9 @@ const domLogic = (function () {
           </select>
           <label for="new-todo-project">Project: </label>
           <select name="project" id="new-todo-project" required>
-            <option value="">--Please choose an option--</option>
-            ${(projects.map((project, index) => {
-              return `<option value="${index}">${project.title}</option>`;
-            })).join('')}
           </select>
         </div>
-        <divc class="submit-button">
+        <div class="submit-button">
           <input type="submit" value="Create New Todo">
         </div> 
       </form>     
@@ -222,6 +238,7 @@ const domLogic = (function () {
     createActionsList,
     createAddForm,
     createAddTodoForm,
+    createAddProjectForm,
   };
 })();
 

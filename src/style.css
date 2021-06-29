@@ -136,16 +136,11 @@ button {
   justify-self: end;
 }
 
-.expand {}
-
 .expand .checklist ul {
 }
 
 .expand .checklist li {
   list-style: none;
-}
-
-.expand input {
 }
 
 .expand .submit,
@@ -192,7 +187,9 @@ input[type=checkbox]:hover,
 .submit-button input:hover {
   cursor: pointer;
 }
+
 #create-new-item,
+#new-project-container,
 #new-todo-container {
   position: fixed;
   background-color: var(--color-yellow);
@@ -209,13 +206,20 @@ input[type=checkbox]:hover,
 }
 
 #create-new-item.active,
+#new-project-container.active,
 #new-todo-container.active {
   visibility: visible;
 }
 
 #create-new-item .close,
+#new-project-container .close,
 #new-todo-container .close {
   align-self: flex-end;
+}
+
+form#new-project {
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
 }
 
 form#new-todo {
@@ -223,14 +227,16 @@ form#new-todo {
   grid-template-rows: repeat(6, 1fr);
 }
 
-form#new-todo div {
+form#new-todo div,
+form#new-project .new-title {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 1em;
   padding: .5em;
 }
 
-form#new-todo div input {
+form#new-todo div input,
+form#new-project .new-title input {
   justify-self: start;
 }
 
