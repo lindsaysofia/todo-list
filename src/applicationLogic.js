@@ -3,7 +3,7 @@ import project from './project';
 import domLogic from './domLogic';
 
 const applicationLogic = (function () {
-  const projects = [];
+  const projects = window.localStorage.projects ? JSON.parse(window.localStorage.projects) : [];
   const content = document.querySelector('#content');
   let actionsList;
   let actionsComplete;
@@ -51,12 +51,14 @@ const applicationLogic = (function () {
     domLogic.displayProjectList(projects);
     domLogic.displayTodoList(projects.length === 0 ? [] : projects[0].todoList);
     activeProjectIndex = 0;
+    window.localStorage.setItem('projects', JSON.stringify(projects));
     addEventListeners();
   };
 
   const handleTodoCompleteAndDelete = (todoIndex, projectIndex) => {
     projects[projectIndex].todoList.splice(todoIndex, 1);
     domLogic.displayTodoList(projects[projectIndex].todoList);
+    window.localStorage.setItem('projects', JSON.stringify(projects));
     addEventListeners();
   };
 
@@ -71,6 +73,7 @@ const applicationLogic = (function () {
   const handleProjectChange = e => {
     let newTitle = e.target.textContent;
     projects[activeProjectIndex].title = newTitle;
+    window.localStorage.setItem('projects', JSON.stringify(projects));
   };
 
   const handleProjectChangeEnd = () => {
@@ -92,6 +95,7 @@ const applicationLogic = (function () {
     let todoIndex = e.target.parentElement.parentElement.dataset.index;
     projects[activeProjectIndex].todoList[todoIndex].checklist.push(newTodoValue);
     domLogic.displayTodoList(projects[activeProjectIndex].todoList);
+    window.localStorage.setItem('projects', JSON.stringify(projects));
     addEventListeners();
   };
 
@@ -103,6 +107,7 @@ const applicationLogic = (function () {
     let todo = projects[activeProjectIndex].todoList[todoItemIndex];
     todo.isActive = !todo.isActive;
     e.target.innerHTML = todo.isActive ? '&and;' : '&or;';
+    window.localStorage.setItem('projects', JSON.stringify(projects));
   };
 
   const toggleDueDate = e => {
@@ -111,6 +116,7 @@ const applicationLogic = (function () {
     let todo = projects[activeProjectIndex].todoList[todoItemIndex];
     todo.isDueDateADate = !todo.isDueDateADate;
     e.target.innerHTML = todo.isDueDateADate ? todo.dueDateAsDate() : todo.dueDateAsDays();
+    window.localStorage.setItem('projects', JSON.stringify(projects));
   };
 
   const handleNewProject = () => {
@@ -169,6 +175,7 @@ const applicationLogic = (function () {
     let priority = e.target[4].value;
     let projectIndex = e.target[5].value;
     projects[projectIndex].todoList.push(todo(title, description, dueDate, priority, notes, [], projectIndex));
+    window.localStorage.setItem('projects', JSON.stringify(projects));
     domLogic.displayProjectList(projects);
     const activeProject = document.querySelectorAll('.project-item')[activeProjectIndex];
     activeProject.classList.add('active');
@@ -181,6 +188,7 @@ const applicationLogic = (function () {
     e.preventDefault();
     let title = e.target[0].value;
     projects.push(project(title, []));
+    window.localStorage.setItem('projects', JSON.stringify(projects));
     domLogic.displayProjectList(projects);
     const activeProject = document.querySelectorAll('.project-item')[activeProjectIndex];
     activeProject.classList.add('active');
@@ -229,20 +237,16 @@ const applicationLogic = (function () {
   };
 
   const initiateTodoProject = () => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const defaultProject = project(`Let's Get This Bread`, []);
-    const defaultTodo00 = todo('Start a todo list :)', 'I need to start a todo list.', tomorrow, 1, 'Add some notes here', ('This Is A Checklist').split(' '), 0);
-    const defaultTodo01 = todo('Start a todo list :)', 'I need to start a todo list.', tomorrow, 2, 'Add some notes here', ('This Is A Checklist').split(' '), 0);
-    const defaultProject2 = project(`Let's Get This Bread Part 2 Let's Get This Bread Part 2`, []);
-    const defaultTodo10 = todo('Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :)', 'I need to start a todo list.', tomorrow, 3, 'Add some notes here', ('This Is A Checklist').split(' '), 1);
-    const defaultTodo11 = todo('Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :) Start a todo list Part 2 :)', 'I need to start a todo list.', tomorrow, 1, 'Add some notes here', ('This Is A Checklist').split(' '), 1);
-    defaultProject.todoList.push(defaultTodo00);
-    defaultProject.todoList.push(defaultTodo01);
-    defaultProject2.todoList.push(defaultTodo10);
-    defaultProject2.todoList.push(defaultTodo11);
-    projects.push(defaultProject);
-    projects.push(defaultProject2);
+    if (projects.length === 0) {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const defaultProject = project(`Let's Get This Bread`, []);
+      const defaultTodo00 = todo('Start a todo list :)', 'I need to start a todo list.', tomorrow, 1, 'Add some notes here', ('This Is A Checklist').split(' '), 0);
+
+      defaultProject.todoList.push(defaultTodo00);
+      projects.push(defaultProject);
+      window.localStorage.setItem('projects', JSON.stringify(projects));
+    }
     
     domLogic.displayProjectList(projects);
     domLogic.displayTodoList(projects[0].todoList);
