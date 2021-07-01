@@ -49,12 +49,12 @@ const applicationLogic = (function () {
     actionsList.classList.add('active');
     if (e.target.parentElement.classList[0] === 'project-item') {
       actionsList.style.left = `${e.target.offsetLeft}px`;
-      actionsList.style.top = `${e.target.offsetTop - e.target.offsetHeight/4}px`;
+      actionsList.style.top = `${e.y - e.target.offsetHeight * 3}px`;
       actionsEdit.style.display = 'block';
       lastActionElement = e.target.parentElement;
     } else if (e.target.parentElement.classList[0] === 'main') {
       actionsList.style.left = `${e.target.offsetLeft - (e.target.offsetWidth*3.5)}px`;
-      actionsList.style.top = `${e.target.offsetTop - e.target.offsetHeight/4}px`;
+      actionsList.style.top = `${e.y - e.target.offsetHeight * 3}px`;
       actionsEdit.style.display = 'none';
       lastActionElement = e.target.parentElement.parentElement;
     }
