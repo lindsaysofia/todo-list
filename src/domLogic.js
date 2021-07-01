@@ -1,11 +1,18 @@
-import { add } from 'date-fns';
+import formatDistance from 'date-fns/formatDistance';
 import format from 'date-fns/format';
-import project from './project';
 
 const domLogic = (function () {
   const projectsContainer = document.querySelector('#projects-container');
   const content = document.querySelector('#content');
   const currentDate = format(new Date(), 'yyyy-MM-dd');
+
+  const dueDateAsDays = date => {
+    return `Due in ${formatDistance(new Date(), date)}`;
+  };
+
+  const dueDateAsDate = date => {
+    return format(date, 'MM/dd/yyyy');
+  };
 
   const createActionsButton = () => {
     const newActionsButton = document.createElement('button');
@@ -61,7 +68,11 @@ const domLogic = (function () {
     } else if (todo.priority == 3) {
       todoDueDate.classList.add('low');
     }
-    todoDueDate.textContent = todo.isDueDateADate ? todo.dueDateAsDate() : todo.dueDateAsDays();
+
+    if (typeof todo.dueDate === 'string') {
+      todo.dueDate = new Date(todo.dueDate);
+    }
+    todoDueDate.textContent = todo.isDueDateADate ? dueDateAsDate(todo.dueDate) : dueDateAsDays(todo.dueDate);
 
     const todoTitle = document.createElement('p');
     todoTitle.classList.add('title');
@@ -91,9 +102,9 @@ const domLogic = (function () {
     const todoChecklistName = document.createElement('p');
     todoChecklistName.textContent = 'Checklist:';
     const todoChecklistItems = document.createElement('ul');
-    todo.checklist.forEach(item => {
+    todo.checklist.forEach((item, index) => {
       let checklistItem = document.createElement('li');
-      checklistItem.innerHTML = `<input type="checkbox"><label>${item}</label>`;
+      checklistItem.innerHTML = `<input data-index="${index}" type="checkbox" ${item.checked ? 'checked' : ""}><label>${item.value}</label>`;
       todoChecklistItems.appendChild(checklistItem);
     });
     const todoChecklistInput = document.createElement('input');

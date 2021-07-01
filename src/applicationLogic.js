@@ -1,6 +1,8 @@
 import todo from './todo';
 import project from './project';
 import domLogic from './domLogic';
+import formatDistance from 'date-fns/formatDistance';
+import format from 'date-fns/format';
 
 const applicationLogic = (function () {
   const projects = window.localStorage.projects ? JSON.parse(window.localStorage.projects) : [];
@@ -11,6 +13,18 @@ const applicationLogic = (function () {
   let actionsDelete;
   let lastActionElement;
   let activeProjectIndex;
+
+  const createOptionString = (projectIndex, projectTitle) => {
+    return `<option value="${projectIndex}">${projectTitle}</option>`
+  };
+
+  const dueDateAsDays = date => {
+    return `Due in ${formatDistance(new Date(), date)}`;
+  };
+
+  const dueDateAsDate = date => {
+    return format(date, 'MM/dd/yyyy');
+  };
 
   const clearActiveProject = () => {
     const activeProject = document.querySelector('.project-item.active');
@@ -93,7 +107,7 @@ const applicationLogic = (function () {
     let newTodoValue = e.target[e.target.length - 2].value;
     if (newTodoValue === '') return;
     let todoIndex = e.target.parentElement.parentElement.dataset.index;
-    projects[activeProjectIndex].todoList[todoIndex].checklist.push(newTodoValue);
+    projects[activeProjectIndex].todoList[todoIndex].checklist.push({value: newTodoValue, checked: false});
     domLogic.displayTodoList(projects[activeProjectIndex].todoList);
     window.localStorage.setItem('projects', JSON.stringify(projects));
     addEventListeners();
@@ -115,7 +129,7 @@ const applicationLogic = (function () {
     let todoItemIndex = todoItemElement.dataset.index;
     let todo = projects[activeProjectIndex].todoList[todoItemIndex];
     todo.isDueDateADate = !todo.isDueDateADate;
-    e.target.innerHTML = todo.isDueDateADate ? todo.dueDateAsDate() : todo.dueDateAsDays();
+    e.target.innerHTML = todo.isDueDateADate ? dueDateAsDate(todo.dueDate) : dueDateAsDays(todo.dueDate);
     window.localStorage.setItem('projects', JSON.stringify(projects));
   };
 
@@ -135,9 +149,8 @@ const applicationLogic = (function () {
     addFormProjects.innerHTML = '';
     addFormProjects.innerHTML = `            
       <option value="">--Please choose an option--</option>
-      ${(projects.map((project, index) => {
-        return `<option value="${index}">${project.title}</option>`;
-      })).join('')}`;
+      ${(projects.map((project, index) => createOptionString(index, project.title))).join('')}
+    `;
     addForm.style.top = `${(document.body.offsetHeight / 2) - (addForm.offsetHeight / 2)}px`;
     addForm.style.left = `${(document.body.offsetWidth / 2) - (addForm.offsetWidth / 2)}px`;
   };
@@ -197,6 +210,15 @@ const applicationLogic = (function () {
     handleCloseProjectForm();
   };
 
+  const handleChecklistItemClick = e => {
+    let todoElement = e.target.parentElement.parentElement.parentElement.parentElement.parentElement;
+    let todoIndex = todoElement.dataset.index;
+    let todo = projects[activeProjectIndex].todoList[todoIndex];
+    todo.checklist[e.target.dataset.index].checked = !todo.checklist[e.target.dataset.index].checked;
+    window.localStorage.setItem('projects', JSON.stringify(projects));
+    addEventListeners();
+  };
+
   const addEventListeners = () => {
     const projectItems = document.querySelectorAll('.project-item');
     const projectItemTitles = document.querySelectorAll('.project-item .title');
@@ -212,6 +234,7 @@ const applicationLogic = (function () {
     const addNewTodoButton = document.querySelector('.add-new-todo');
     const newTodoForm = document.querySelector('#new-todo');
     const newProjectForm = document.querySelector('#new-project');
+    const checklistItems = document.querySelectorAll('input[type=checkbox]');
 
     projectItems.forEach(projectItem => projectItem.addEventListener('click', activateProject));
     projectItemTitles.forEach(title => {
@@ -234,6 +257,7 @@ const applicationLogic = (function () {
     closeTodoButton.addEventListener('click', handleCloseTodoForm);
     newTodoForm.addEventListener('submit', handleNewTodoSubmit);
     newProjectForm.addEventListener('submit', handleNewProjectSubmit);
+    checklistItems.forEach(item => item.addEventListener('click', handleChecklistItemClick));
   };
 
   const initiateTodoProject = () => {
@@ -241,11 +265,11 @@ const applicationLogic = (function () {
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
       const defaultProject = project(`Let's Get This Bread`, []);
-      const defaultTodo00 = todo('Start a todo list :)', 'I need to start a todo list.', tomorrow, 1, 'Add some notes here', ('This Is A Checklist').split(' '), 0);
+      const defaultTodo00 = todo('Start a todo list :)', 'I need to start a todo list.', tomorrow, 1, 'Add some notes here', [{value: 'This', checked: false}, {value: 'Is', checked: false}, {value: 'A', checked: false}, {value: 'Checklist', checked: false}], 0);
 
       defaultProject.todoList.push(defaultTodo00);
       projects.push(defaultProject);
-      window.localStorage.setItem('projects', JSON.stringify(projects));
+      window.localStorage.setItem('projects', JSON.stringify(projects, function replacer(key, value) { return value}));
     }
     
     domLogic.displayProjectList(projects);
