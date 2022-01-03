@@ -1,4 +1,6 @@
-Todo List Project (per The Odin Project)
+# Todo List Project (per The Odin Project)
+
+Live Demo Here: https://lindsaysofia.github.io/todo-list/
 
 Created a Todo List with the following:
 - Projects are listed on the left.
